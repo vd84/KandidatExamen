@@ -1,4 +1,4 @@
 #TODO: Koda originella DBScan algoritmen
 #TODO: Implementera egen lösning
 #TODO:
-a = 2
+a = 3
