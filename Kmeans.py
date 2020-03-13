@@ -1,33 +1,21 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Feb 13 12:33:43 2020
-
-@author: doha6991
-"""
-
-from kdbscan import KDBSCAN
-from VDBScan import VDBSCAN
-from sklearn.datasets import load_iris
-from scipy.spatial.distance import cosine
+from sklearn.cluster import KMeans
+import numpy as np
 from sklearn.datasets.samples_generator import make_blobs
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score
 
-
+number_of_clusters = 3
 
 X, labels_true = make_blobs(n_samples=750, cluster_std=[1.0, 2.5, 0.5],
                             random_state=8)
+kmeans = KMeans(n_clusters=number_of_clusters, random_state=0).fit(X)
 
-alg2 = VDBSCAN(kappa=0.005,metric=cosine)
-alg2.fit(X,eta=0.5)
-alg2_labels = alg2.labels_
+kmeans_labels = kmeans.labels_
 
-print("mfjdsfdsa")
+core_samples_mask = np.zeros_like(kmeans.labels_, dtype=bool)
 
-core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
-
-unique_labels = set(alg2_labels)
+unique_labels = set(kmeans_labels)
 colors = [plt.cm.Spectral(each)
           for each in np.linspace(0, 1, len(unique_labels))]
 for k, col in zip(unique_labels, colors):
@@ -35,7 +23,7 @@ for k, col in zip(unique_labels, colors):
         # Black used for noise.
         col = [0, 0, 0, 1]
 
-    class_member_mask = (alg2_labels == k)
+    class_member_mask = (kmeans_labels == k)
 
     xy = X[class_member_mask & core_samples_mask]
     plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
@@ -48,5 +36,6 @@ for k, col in zip(unique_labels, colors):
 plt.title('Estimated number of clusters: %d' % 750)
 plt.show()
 
-silhouette_avg = silhouette_score(X, alg2_labels)
-print("The average silhouette_score is :", silhouette_avg)
+silhouette_avg = silhouette_score(X, kmeans_labels)
+print("For n_clusters =", number_of_clusters,
+          "The average silhouette_score is :", silhouette_avg)

@@ -14,11 +14,14 @@ from sklearn.neighbors import NearestNeighbors
 from sklearn.cluster import DBSCAN
 import termplot as tplt
 import matplotlib.pyplot as plt
+from sklearn.metrics import silhouette_samples, silhouette_score
 
 
 class VDBSCAN():
-    
+    DBlabels = [],
+    DBcore_samples_mask = [],
     def __init__(self,
+
                  kappa = 0.0017,
                  max_level=60,
                  max_non_changes=8,
@@ -100,7 +103,7 @@ class VDBSCAN():
                 else:                        
                     db = DBSCAN(eps=self.eps, metric = self.dist_p2p)
                 db.fit(Xcluster)
-                
+
                 this_n_clusters = len(set(db.labels_)) - (1 if -1 in db.labels_ else 0)
                 
                 if this_n_clusters > 1:
@@ -169,7 +172,10 @@ class VDBSCAN():
             print('Algorithm complete!')
             print('-------------------------------------------------------')
             print('-------------------------------------------------------')
+
+
         return self
+
 
     def separation_criterion(self, X, labels, isolation = 0.5, kappa = 0.50, verbose = False):
         success = False
