@@ -12,7 +12,7 @@ from scipy.spatial.distance import cosine
 from sklearn.datasets.samples_generator import make_blobs
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import silhouette_samples, silhouette_score
+from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
 
@@ -23,7 +23,7 @@ alg2 = VDBSCAN(kappa=0.005,metric=cosine)
 alg2.fit(X,eta=0.5)
 alg2_labels = alg2.labels_
 
-print("mfjdsfdsa")
+
 
 core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
 
@@ -50,3 +50,6 @@ plt.show()
 
 silhouette_avg = silhouette_score(X, alg2_labels)
 print("The average silhouette_score is :", silhouette_avg)
+
+rand_score = adjusted_rand_score(labels_true, alg2_labels)
+print("The rand index is :", rand_score)

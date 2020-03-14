@@ -3,9 +3,9 @@ import numpy as np
 from sklearn.datasets.samples_generator import make_blobs
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn.metrics import silhouette_samples, silhouette_score
+from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
-number_of_clusters = 3
+number_of_clusters = 2
 
 X, labels_true = make_blobs(n_samples=750, cluster_std=[1.0, 2.5, 0.5],
                             random_state=8)
@@ -39,3 +39,7 @@ plt.show()
 silhouette_avg = silhouette_score(X, kmeans_labels)
 print("For n_clusters =", number_of_clusters,
           "The average silhouette_score is :", silhouette_avg)
+
+rand_score = adjusted_rand_score(labels_true, kmeans_labels)
+print("For n_clusters =", number_of_clusters,
+          "The rand index is :", rand_score)
