@@ -15,41 +15,40 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
+def run(X, labels_true):
 
-X, labels_true = make_blobs(n_samples=750, cluster_std=[1.0, 2.5, 0.5],
-                            random_state=8)
+    alg2 = VDBSCAN(kappa=0.005,metric=cosine)
+    alg2.fit(X,eta=0.5)
+    alg2_labels = alg2.labels_
 
-alg2 = VDBSCAN(kappa=0.005,metric=cosine)
-alg2.fit(X,eta=0.5)
-alg2_labels = alg2.labels_
+    core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
+
+    unique_labels = set(alg2_labels)
+    colors = [plt.cm.Spectral(each)
+              for each in np.linspace(0, 1, len(unique_labels))]
+    for k, col in zip(unique_labels, colors):
+        if k == -1:
+            # Black used for noise.
+            col = [0, 0, 0, 1]
+
+        class_member_mask = (alg2_labels == k)
+
+        xy = X[class_member_mask & core_samples_mask]
+        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+                 markeredgecolor='k', markersize=14)
+
+        xy = X[class_member_mask & ~core_samples_mask]
+        plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
+                 markeredgecolor='k', markersize=6)
+
+    plt.title('Estimated number of clusters: %d' % 750)
+    plt.show()
+
+    silhouette_avg = silhouette_score(X, alg2_labels)
+    print("VDBSCAN: The average silhouette_score is :", silhouette_avg)
+
+    rand_score = adjusted_rand_score(labels_true, alg2_labels)
+    print("VBSCAN: The rand index is :", rand_score)
 
 
 
-core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
-
-unique_labels = set(alg2_labels)
-colors = [plt.cm.Spectral(each)
-          for each in np.linspace(0, 1, len(unique_labels))]
-for k, col in zip(unique_labels, colors):
-    if k == -1:
-        # Black used for noise.
-        col = [0, 0, 0, 1]
-
-    class_member_mask = (alg2_labels == k)
-
-    xy = X[class_member_mask & core_samples_mask]
-    plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-             markeredgecolor='k', markersize=14)
-
-    xy = X[class_member_mask & ~core_samples_mask]
-    plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
-             markeredgecolor='k', markersize=6)
-
-plt.title('Estimated number of clusters: %d' % 750)
-plt.show()
-
-silhouette_avg = silhouette_score(X, alg2_labels)
-print("The average silhouette_score is :", silhouette_avg)
-
-rand_score = adjusted_rand_score(labels_true, alg2_labels)
-print("The rand index is :", rand_score)
