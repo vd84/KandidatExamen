@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
-def run(X, labels_true, number_of_clusters):
+def run(X, labels_true, number_of_clusters, experiment_number):
 
     kmeans = KMeans(n_clusters=number_of_clusters, random_state=0).fit(X)
 
@@ -30,14 +30,14 @@ def run(X, labels_true, number_of_clusters):
         xy = X[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
-
-    plt.title("KMEANS PLOT")
+    plot_text = "KMEANS PLOT, experiment number: " + str(experiment_number)
+    plt.title(plot_text)
     plt.show()
 
     silhouette_avg = silhouette_score(X, kmeans_labels)
-    print("KMEANS: For n_clusters =", number_of_clusters,
+    print("KMEANS: ", "Experiment number ", experiment_number," For n_clusters =", number_of_clusters,
               "KMEANS: The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, kmeans_labels)
-    print("KMEANS: For n_clusters =", number_of_clusters,
+    print("KMEANS: ", "Experiment number ", experiment_number," For n_clusters =", number_of_clusters,
               "KMEANS: The rand index is :", rand_score)

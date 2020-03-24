@@ -12,22 +12,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
-
-
 from MyDbScan import MyDBSCAN
+
 
 # Create three gaussian blobs to use as our clustering data.
 
 
-def run(X, labels_true):
+def run(X, labels_true, experiment_number):
     db = DBSCAN(eps=1.2, min_samples=3).fit(X)
     skl_labels = db.labels_
 
     core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
 
-
-
-    #Plot results of scikit DBSCAN
+    # Plot results of scikit DBSCAN
 
     # Black removed and is used for noise instead.
     unique_labels = set(skl_labels)
@@ -47,21 +44,12 @@ def run(X, labels_true):
         xy = X[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
-
-    plt.title("DBSCAN PLOT")
+    plot_text = "DBSCAN PLOT, experiment number: " + str(experiment_number)
+    plt.title(plot_text)
     plt.show()
 
     silhouette_avg = silhouette_score(X, skl_labels)
-    print("DBSCAN: The average silhouette_score is :", silhouette_avg)
+    print("DBSCAN: ", "Experiment number ", experiment_number, " The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, skl_labels)
-    print("DBSCAN: The rand index is :", rand_score)
-
-
-
-
-
-
-
-
-
+    print("DBSCAN: ", "Experiment number ", experiment_number, " The rand index is :", rand_score)

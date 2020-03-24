@@ -15,7 +15,7 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
-def run(X, labels_true):
+def run(X, labels_true, experiment_number):
 
     alg2 = VDBSCAN(kappa=0.005,metric=cosine)
     alg2.fit(X,eta=0.5)
@@ -41,14 +41,15 @@ def run(X, labels_true):
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plt.title("VDBSCAN PLOT")
+    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number)
+    plt.title(plot_text)
     plt.show()
 
     silhouette_avg = silhouette_score(X, alg2_labels)
-    print("VDBSCAN: The average silhouette_score is :", silhouette_avg)
+    print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, alg2_labels)
-    print("VBSCAN: The rand index is :", rand_score)
+    print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
 
 
 
