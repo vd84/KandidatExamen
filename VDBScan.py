@@ -40,7 +40,7 @@ class VDBSCAN():
             
             
     def fit(self,X,
-                 eps_0='auto', 
+                 eps_0='auto',
                  eta=0.1,
                  verbose=3):
         if verbose:
