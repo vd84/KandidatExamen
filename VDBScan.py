@@ -42,7 +42,7 @@ class VDBSCAN():
     def fit(self,X,
                  eps_0='auto', 
                  eta=0.1,
-                 verbose=1):
+                 verbose=3):
         if verbose:
             print('-------------------------------------------------------')
             print('VDBSCAN Algorithm')
@@ -97,8 +97,9 @@ class VDBSCAN():
                               str(100 * i / self.n_clusters) + '%')
                     
                 Xcluster, this_idx = get_cluster(X = X, labels = self.y, clusterID = i)
-                
-                if self.metric == 'default':   
+                print(self.eps)
+                if self.metric == 'default':
+
                     db = DBSCAN(eps=self.eps)
                 else:                        
                     db = DBSCAN(eps=self.eps, metric = self.dist_p2p)

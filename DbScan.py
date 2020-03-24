@@ -18,8 +18,8 @@ from MyDbScan import MyDBSCAN
 # Create three gaussian blobs to use as our clustering data.
 
 
-def run(X, labels_true, experiment_number):
-    db = DBSCAN(eps=1.2, min_samples=3).fit(X)
+def run(X, labels_true, experiment_number, eps, minPts):
+    db = DBSCAN(eps=eps, min_samples=minPts).fit(X)
     skl_labels = db.labels_
 
     core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
