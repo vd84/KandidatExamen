@@ -41,7 +41,7 @@ def run(X, labels_true):
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plt.title('Estimated number of clusters: %d' % 750)
+    plt.title("VDBSCAN PLOT")
     plt.show()
 
     silhouette_avg = silhouette_score(X, alg2_labels)
