@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import sklearn.preprocessing as pre
+import sklearn.impute as imp
 
 
 URL = "http://mlr.cs.umass.edu/ml/machine-learning-databases/water-treatment/water-treatment.data"
@@ -103,7 +104,8 @@ def get_features(frame):
 
     # Impute missing values from the mean of their entire column
 
-    imputer = pre.Imputer(strategy='mean')
+    imputer = imp.SimpleImputer(strategy='mean')
+    #imputer = pre.Imputer(strategy='mean')
     arr = imputer.fit_transform(arr)
 
     # Normalize the entire data set to mean=0.0 and variance=1.0
@@ -276,3 +278,4 @@ predictions = list(evaluate_learners(X))
 # Display the results
 print("Plotting the results")
 plot(Xs, predictions)
+
