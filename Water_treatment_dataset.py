@@ -270,10 +270,10 @@ def run():
 
     # Evaluate multiple clustering learners on the data
     print("Evaluating clustering learners")
-    predictions = list(evaluate_learners(X))
+    #predictions = list(evaluate_learners(X))
 
     # Display the results
     print("Plotting the results")
-    plot(Xs, predictions)
+    #plot(Xs, predictions)
 
     return X

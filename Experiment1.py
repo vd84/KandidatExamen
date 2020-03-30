@@ -73,30 +73,30 @@ import Water_treatment_dataset
 
 
 # Data set5 ##########################
-X, labels_true = make_blobs(n_samples=200, centers=4, cluster_std=[1.0, 2.5, 0.5, 1.5],
-                            random_state=8)
+# X, labels_true = make_blobs(n_samples=200, centers=4, cluster_std=[1.0, 2.5, 0.5, 1.5],
+#                             random_state=8)
+# K = 4
+# experiment_number = 5
+# eps = 3.0
+# minPts = 3
+# # End data set5 ######################
+#
+# # Run algorithms
+# runVDBScan.run(X, labels_true, experiment_number)
+# Kmeans.run(X, labels_true, K, experiment_number)
+# DbScan.run(X, labels_true, experiment_number, eps, minPts)
+# ################
+
+# Data set6 ##########################
+X = Water_treatment_dataset.run()
 K = 4
-experiment_number = 5
+experiment_number = 6
 eps = 3.0
 minPts = 3
-# End data set5 ######################
+# End data set6 ######################
 
 # Run algorithms
-runVDBScan.run(X, labels_true, experiment_number)
-Kmeans.run(X, labels_true, K, experiment_number)
-DbScan.run(X, labels_true, experiment_number, eps, minPts)
-################
-
-# Data set5 ##########################
-X,  = Water_treatment_dataset.run()
-K = 4
-experiment_number = 5
-eps = 3.0
-minPts = 3
-# End data set5 ######################
-
-# Run algorithms
-runVDBScan.run_without_true_labels(X, experiment_number)
+#runVDBScan.run_without_true_labels(X, experiment_number)
 Kmeans.run_without_true_labels(X, K, experiment_number)
 DbScan.run_without_true_labels(X, experiment_number, eps, minPts)
 ################
