@@ -52,7 +52,7 @@ def run(X, labels_true, experiment_number):
 
 
 
-def run_without_true_labels(X, experiment_number):
+def run_without_true_labels(X, labels_true, experiment_number):
 
     alg2 = VDBSCAN(kappa=0.005,metric=cosine)
     alg2.fit(X,eta=0.5)
@@ -84,3 +84,9 @@ def run_without_true_labels(X, experiment_number):
 
     silhouette_avg = silhouette_score(X, alg2_labels)
     print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
+
+    rand_score = adjusted_rand_score(labels_true, alg2_labels)
+    print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
+
+
+
