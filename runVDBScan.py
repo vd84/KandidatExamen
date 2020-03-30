@@ -5,7 +5,6 @@ Created on Thu Feb 13 12:33:43 2020
 @author: doha6991
 """
 
-from kdbscan import KDBSCAN
 from VDBScan import VDBSCAN
 from sklearn.datasets import load_iris
 from scipy.spatial.distance import cosine
