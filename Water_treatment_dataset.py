@@ -1,10 +1,12 @@
 
 
 from pandas import read_table
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import sklearn.impute as imp
+from sklearn.decomposition import PCA as pca
 
 
 URL = "http://mlr.cs.umass.edu/ml/machine-learning-databases/water-treatment/water-treatment.data"
@@ -276,4 +278,6 @@ def run():
     print("Plotting the results")
     #plot(Xs, predictions)
 
-    return X
+    X_pca = pca.fit_transform(X)
+    X_pca = pd.DataFrame(X_pca)
+    return X_pca
