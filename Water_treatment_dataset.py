@@ -4,7 +4,6 @@ from pandas import read_table
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
-import sklearn.preprocessing as pre
 import sklearn.impute as imp
 
 
@@ -105,7 +104,6 @@ def get_features(frame):
     # Impute missing values from the mean of their entire column
 
     imputer = imp.SimpleImputer(strategy='mean')
-    #imputer = pre.Imputer(strategy='mean')
     arr = imputer.fit_transform(arr)
 
     # Normalize the entire data set to mean=0.0 and variance=1.0
@@ -113,7 +111,6 @@ def get_features(frame):
     arr = scale(arr)
 
     return arr
-
 
 # =====================================================================
 
@@ -257,25 +254,26 @@ def plot(Xs, predictions):
 # =====================================================================
 
 
+def run():
+    # Download the data set from URL
+    print("Downloading data from {}".format(URL))
+    frame = download_data()
 
-# Download the data set from URL
-print("Downloading data from {}".format(URL))
-frame = download_data()
+    # Process data into a feature array
+    # This is unsupervised learning, and so there are no labels
+    print("Processing {} samples with {} attributes".format(len(frame.index), len(frame.columns)))
+    X = get_features(frame)
 
-# Process data into a feature array
-# This is unsupervised learning, and so there are no labels
-print("Processing {} samples with {} attributes".format(len(frame.index), len(frame.columns)))
-X = get_features(frame)
+    # Run multiple dimensionality reduction algorithms on the data
+    print("Reducing dimensionality")
+    Xs = list(reduce_dimensions(X))
 
-# Run multiple dimensionality reduction algorithms on the data
-print("Reducing dimensionality")
-Xs = list(reduce_dimensions(X))
+    # Evaluate multiple clustering learners on the data
+    print("Evaluating clustering learners")
+    predictions = list(evaluate_learners(X))
 
-# Evaluate multiple clustering learners on the data
-print("Evaluating clustering learners")
-predictions = list(evaluate_learners(X))
+    # Display the results
+    print("Plotting the results")
+    plot(Xs, predictions)
 
-# Display the results
-print("Plotting the results")
-plot(Xs, predictions)
-
+    return X
