@@ -14,10 +14,10 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
-def run(X, labels_true, experiment_number):
+def run(X, labels_true, experiment_number, samples):
 
-    alg2 = VDBSCAN(kappa=0.005,metric=cosine)
-    alg2.fit(X,eta=0.5)
+    alg2 = VDBSCAN(kappa=0.005,metric='default')
+    alg2.fit(X,eta=0.1)
     alg2_labels = alg2.labels_
 
     core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
@@ -40,7 +40,7 @@ def run(X, labels_true, experiment_number):
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number)
+    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples)
     plt.title(plot_text)
     plt.show()
 
@@ -52,10 +52,10 @@ def run(X, labels_true, experiment_number):
 
 
 
-def run_without_true_labels(X, labels_true, experiment_number):
+def run_without_true_labels(X, experiment_number, samples):
 
     alg2 = VDBSCAN(kappa=0.005,metric=cosine)
-    alg2.fit(X,eta=0.5)
+    alg2.fit(X,eta=0.1)
     alg2_labels = alg2.labels_
 
     core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
@@ -78,15 +78,15 @@ def run_without_true_labels(X, labels_true, experiment_number):
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number)
+    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples)
     plt.title(plot_text)
     plt.show()
 
     silhouette_avg = silhouette_score(X, alg2_labels)
     print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
 
-    rand_score = adjusted_rand_score(labels_true, alg2_labels)
-    print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
+    #rand_score = adjusted_rand_score(labels_true, alg2_labels)
+    #print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
 
 
 

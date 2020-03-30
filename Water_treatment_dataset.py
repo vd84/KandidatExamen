@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import sklearn.impute as imp
+from sklearn.decomposition import PCA
 from sklearn.decomposition import PCA as pca
 
 
@@ -277,7 +278,7 @@ def run():
     # Display the results
     print("Plotting the results")
     #plot(Xs, predictions)
-
+    pca = PCA(n_components= 2)
     X_pca = pca.fit_transform(X)
-    X_pca = pd.DataFrame(X_pca)
+    #X_pca = pd.DataFrame(X_pca)
     return X_pca
