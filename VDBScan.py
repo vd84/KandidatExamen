@@ -26,11 +26,13 @@ class VDBSCAN():
                  max_level=60,
                  max_non_changes=8,
                  metric = 'default', # euclidean
-                 isol = True):
+                 isol = True,
+                 minPts = 5):
         self.kappa = kappa
         self.max_level       = max_level
         self.max_non_changes = max_non_changes
         self.isol            = isol
+        self.minPts          = minPts
         if metric == 'default':
             self.metric      = metric
             self.dist_p2p    = euclidean
@@ -100,9 +102,9 @@ class VDBSCAN():
                 print(self.eps)
                 if self.metric == 'default':
 
-                    db = DBSCAN(eps=self.eps)
+                    db = DBSCAN(eps=self.eps, min_samples=self.minPts)
                 else:                        
-                    db = DBSCAN(eps=self.eps, metric = self.dist_p2p)
+                    db = DBSCAN(eps=self.eps, metric = self.dist_p2p, min_samples=self.minPts)
                 db.fit(Xcluster)
 
                 this_n_clusters = len(set(db.labels_)) - (1 if -1 in db.labels_ else 0)

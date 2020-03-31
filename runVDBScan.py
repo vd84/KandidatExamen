@@ -14,9 +14,9 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
-def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue):
+def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts):
 
-    alg2 = VDBSCAN(kappa=kappavalue,metric=metricvalue)
+    alg2 = VDBSCAN(kappa=kappavalue,metric=metricvalue, minPts=minPts)
     alg2.fit(X,eta=etavalue)
     alg2_labels = alg2.labels_
 
@@ -40,7 +40,7 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples)
+    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples) + "\nminPts=" + str(minPts) + " kappa="+ str(kappavalue) + " eta="+str(etavalue) +" metric=" + str(metricvalue)
     plt.title(plot_text)
     plt.show()
 
@@ -52,9 +52,9 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
 
 
 
-def run_without_true_labels(X, experiment_number, samples, kappavalue, etavalue, metricvalue):
+def run_without_true_labels(X, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts):
 
-    alg2 = VDBSCAN(kappa=0.005,metric=cosine)
+    alg2 = VDBSCAN(kappa=kappavalue,metric=metricvalue, minPts = minPts)
     alg2.fit(X,eta=0.1)
     alg2_labels = alg2.labels_
 
