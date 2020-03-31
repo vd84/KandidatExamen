@@ -278,6 +278,6 @@ def run():
     print("Plotting the results")
     plot(Xs, predictions)
 
-    X_pca = pca.fit_transform(X)
+    X_pca = pca.fit_transform(, X)
     X_pca = pd.DataFrame(X_pca)
     return X_pca

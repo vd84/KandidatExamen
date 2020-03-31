@@ -99,6 +99,5 @@ minPts = 3
 #runVDBScan.run_without_true_labels(X, experiment_number)
 Kmeans_labels = Kmeans.run_without_true_labels(X, K, experiment_number)
 Water_treatment_dataset.plot(X, Kmeans_labels)
-
 DbScan_labels = DbScan.run_without_true_labels(X, experiment_number, eps, minPts)
 ################
