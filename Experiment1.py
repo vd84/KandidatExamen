@@ -1,4 +1,4 @@
-from sklearn.datasets.samples_generator import make_blobs, make_gaussian_quantiles, make_moons;
+from sklearn.datasets.samples_generator import make_blobs, make_gaussian_quantiles, make_moons, make_circles;
 import runVDBScan
 import Kmeans
 import DbScan
@@ -58,15 +58,22 @@ import Water_treatment_dataset
 #
 #
 # Data set4 ##########################
-X, labels_true = make_blobs(n_samples=5000, centers=5, cluster_std=[1.0, 2.5, 0.5, 3.0, 3.0],
-                            random_state=8)
+samples = 1000
+
+#X, labels_true = make_circles(n_samples=samples, factor=.5, noise=.05)
+
+#X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.0, 2.5, 0.5], random_state=8)
+X, labels_true = make_blobs(n_samples=5000, centers=5, cluster_std=[1.0, 2.5, 0.5, 3.0, 3.0], random_state=8)
 #X, labels_true = make_gaussian_quantiles(n_samples=200, n_features=2, n_classes=3, random_state=8, cov=5)
 #X, labels_true = make_gaussian_quantiles(mean=(4, 4), cov=1,
 #                                 n_samples=500, n_features=2,
 #                                 n_classes=2, random_state=1)
 
+metricvalue = 'default'
+kappavalue = 0.005
+etavalue = 0.5
 
-samples = 500
+
 K = 2
 experiment_number = 4
 eps = 0.1
@@ -76,9 +83,9 @@ minPts = 5
 # End data set4 ######################
 
 # Run algorithms
-runVDBScan.run(X, labels_true, experiment_number, samples)
+runVDBScan.run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue)
 #Kmeans.run(X, labels_true, K, experiment_number)
-DbScan.run(X, labels_true, experiment_number, eps, minPts)
+#DbScan.run(X, labels_true, experiment_number, eps, minPts)
 ################
 
 #

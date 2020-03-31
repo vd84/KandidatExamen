@@ -18,7 +18,7 @@ from MyDbScan import MyDBSCAN
 # Create three gaussian blobs to use as our clustering data.
 
 
-def run(X, labels_true, experiment_number, eps, minPts):
+def run(X, labels_true, experiment_number, eps, minPts, samples):
     db = DBSCAN(eps=eps, min_samples=minPts).fit(X)
     skl_labels = db.labels_
 
@@ -44,7 +44,7 @@ def run(X, labels_true, experiment_number, eps, minPts):
         xy = X[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
-    plot_text = "DBSCAN PLOT, experiment number: " + str(experiment_number)
+    plot_text = "DBSCAN PLOT, experiment number: " + str(experiment_number)  + "Samplesize = " + samples
     plt.title(plot_text)
     plt.show()
 
@@ -53,7 +53,7 @@ def run(X, labels_true, experiment_number, eps, minPts):
 
     rand_score = adjusted_rand_score(labels_true, skl_labels)
     print("DBSCAN: ", "Experiment number ", experiment_number, " The rand index is :", rand_score)
-def run_without_true_labels(X, experiment_number, eps, minPts):
+def run_without_true_labels(X, experiment_number, eps, minPts, samples):
     db = DBSCAN(eps=eps, min_samples=minPts).fit(X)
     skl_labels = db.labels_
 
@@ -79,7 +79,7 @@ def run_without_true_labels(X, experiment_number, eps, minPts):
         xy = X[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
-    plot_text = "DBSCAN PLOT, experiment number: " + str(experiment_number)
+    plot_text = "DBSCAN PLOT, experiment number: " + str(experiment_number) + "Samplesize = " + samples
     plt.title(plot_text)
     plt.show()
 

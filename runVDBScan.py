@@ -14,10 +14,10 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
-def run(X, labels_true, experiment_number, samples):
+def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue):
 
-    alg2 = VDBSCAN(kappa=0.005,metric='default')
-    alg2.fit(X,eta=0.1)
+    alg2 = VDBSCAN(kappa=kappavalue,metric=metricvalue)
+    alg2.fit(X,eta=etavalue)
     alg2_labels = alg2.labels_
 
     core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
@@ -52,7 +52,7 @@ def run(X, labels_true, experiment_number, samples):
 
 
 
-def run_without_true_labels(X, experiment_number, samples):
+def run_without_true_labels(X, experiment_number, samples, kappavalue, etavalue, metricvalue):
 
     alg2 = VDBSCAN(kappa=0.005,metric=cosine)
     alg2.fit(X,eta=0.1)
