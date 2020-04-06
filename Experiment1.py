@@ -25,7 +25,7 @@ minPts = 5#(samples/20) + (0.0001 * samples)
 minPtsDBscan = 5
 
 #X1, labels_true1 = make_circles(n_samples=samples, factor=.5, noise=.05)
-X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=8)
+X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=3)
 #X2, labels_true2 = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=2)
 #X = []
 
@@ -71,7 +71,7 @@ minPts = (samples/20) + (0.0001 * samples)
 minPtsDBscan = 5
 
 #X1, labels_true1 = make_circles(n_samples=samples, factor=.5, noise=.05)
-X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=8)
+X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=3)
 #X2, labels_true2 = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=2)
 #X = []
 
