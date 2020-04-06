@@ -20,6 +20,7 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
     alg2.fit(X,eta=etavalue)
     alg2_labels = alg2.labels_
 
+
     core_samples_mask = np.zeros_like(alg2_labels, dtype=bool)
 
     unique_labels = set(alg2_labels)
@@ -40,7 +41,9 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
 
-    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples) + "\nminPts=" + str(minPts) + " kappa="+ str(kappavalue) + " eta="+str(etavalue) +" metric=" + str(metricvalue)
+    plot_text = "VDBSCAN PLOT, experiment number: " + str(experiment_number) + " Samplesize = " + str(samples) + "\nminPts=" + \
+                str(minPts) + " kappa="+ str(kappavalue) + \
+                " eta="+str(etavalue) +" metric=" + str(metricvalue) +"\n Clusters found = " + str(alg2.n_clusters)
     plt.title(plot_text)
     plt.show()
 
