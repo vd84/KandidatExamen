@@ -43,6 +43,9 @@ class VDBSCAN():
             
     def fit(self,X,
                  eps_0='auto',
+                epsilon_start_factor = 0.2,
+            percent_noise = 10,
+            min_pts_decrease_factor = 0.9,
                  eta=0.1,
                  verbose=3):
         if verbose:
@@ -60,7 +63,7 @@ class VDBSCAN():
         # Compute eps_0 as 20% of the mean distances between points in dataset
         if eps_0 == 'auto':
             c = np.mean(X,axis=0)
-            self.eps = (0.2 * np.mean(self.dists_p2set(c,X)))
+            self.eps = (epsilon_start_factor * np.mean(self.dists_p2set(c,X)))
         else:
             self.eps = eps_0
         self.n_clusters = 1 
@@ -99,8 +102,13 @@ class VDBSCAN():
                               str(100 * i / self.n_clusters) + '%')
                     
                 Xcluster, this_idx = get_cluster(X = X, labels = self.y, clusterID = i)
+                print("ANTAL DATAPUNKTER SOM SKICKAS TILL DBSCAN " + str(len(Xcluster)))
                 print(self.eps)
                 if self.metric == 'default':
+
+
+
+                    #Testkör DBSCAN räkna noise,
 
                     db = DBSCAN(eps=self.eps, min_samples=self.minPts)
                 else:                        
@@ -145,7 +153,14 @@ class VDBSCAN():
             if current_level >= self.max_level:
                 finished = True
             if verbose:
-                n_noise = np.sum(self.y==-1)    
+                n_noise = np.sum(self.y==-1)
+                if 100*n_noise/self.y.shape[0] > percent_noise:
+                    print(percent_noise)
+                    print(str(100*n_noise/self.y.shape[0]))
+                    self.minPts = self.minPts * min_pts_decrease_factor
+                    print("MINPTS: " + str(self.minPts))
+                    return VDBSCAN.fit(self = self, X=X,eta=eta, epsilon_start_factor=epsilon_start_factor)
+
                 ncluster_ev.append(self.n_clusters)
                 if verbose > 2:
                     print('\nNumber of clusters after level: ' +\

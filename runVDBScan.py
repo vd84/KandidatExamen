@@ -14,10 +14,10 @@ import numpy as np
 from sklearn.metrics import silhouette_samples, silhouette_score, adjusted_rand_score
 
 
-def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts):
+def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsilon, percent_noise, minPts_deacrease_factor):
 
     alg2 = VDBSCAN(kappa=kappavalue,metric=metricvalue, minPts=minPts)
-    alg2.fit(X,eta=etavalue)
+    alg2.fit(X,eta=etavalue, epsilon_start_factor=epsilon, percent_noise = percent_noise, min_pts_decrease_factor=minPts_deacrease_factor)
     alg2_labels = alg2.labels_
 
 
