@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import MaxNLocator
 import sklearn.impute as imp
+from sklearn.decomposition import PCA
 from sklearn.decomposition import PCA as pca
 
 
@@ -272,12 +273,12 @@ def run():
 
     # Evaluate multiple clustering learners on the data
     print("Evaluating clustering learners")
-    predictions = list(evaluate_learners(X))
+    #predictions = list(evaluate_learners(X))
 
     # Display the results
     print("Plotting the results")
-    plot(Xs, predictions)
-
-    X_pca = pca.fit_transform(, X)
-    X_pca = pd.DataFrame(X_pca)
+    #plot(Xs, predictions)
+    pca = PCA(n_components= 2)
+    X_pca = pca.fit_transform(X)
+    #X_pca = pd.DataFrame(X_pca)
     return X_pca
