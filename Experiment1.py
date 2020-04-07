@@ -203,16 +203,16 @@ etavalue = 0.1
 K = 3
 experiment_number = 5
 eps = 0.5
-epsVDBScan = 1
-minPts = (samples/20) + (0.0001 * samples)
+epsVDBScan = 0.5
+minPts = 5#(samples/20) + (0.0001 * samples)
 minPtsDBscan = 5
 
-percent_noise_vdbscan = 20
-mints_decease_factor_vdbscan = 0.9
+percent_noise_vdbscan = 100
+mints_decease_factor_vdbscan = 0.5
 
 
 #X1, labels_true1 = make_circles(n_samples=samples, factor=.5, noise=.05)
-X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.8, 2.8, 0.3], random_state=3)
+X, labels_true = make_blobs(n_samples=samples, cluster_std=[1.8, 2.8, 0.3], random_state=8)
 #X2, labels_true2 = make_blobs(n_samples=samples, cluster_std=[1.0, 1.5, 0.5], random_state=2)
 #X = []
 
