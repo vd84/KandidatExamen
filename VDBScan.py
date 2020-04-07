@@ -75,12 +75,6 @@ class VDBSCAN():
         non_changes = 0
         ncluster_ev = [1]
         while not(finished):
-            nclusters_saved = self.n_clusters
-            self_y_saved = self.y
-            self_eps_saved = self.eps
-            current_level_saved = current_level
-            non_changes_saved = non_changes
-
             y_new = copy(self.y)
             self.eps = self.eps * (1 - self.eta)
             current_level += 1
@@ -114,6 +108,7 @@ class VDBSCAN():
 
 
 
+
                     #Testkör DBSCAN räkna noise,
 
                     db = DBSCAN(eps=self.eps, min_samples=self.minPts)
@@ -136,7 +131,7 @@ class VDBSCAN():
                                                                kappa = self.kappa,
                                                                verbose = verbose)
                     this_labels = get_new_labels(this_labels,y_new)
-                    y_new[this_idx] = this_labels
+                    y_new[this_idx]      = this_labels
                     y_new = sort_by_size(y_new)
             if verbose > 2:
                 print('Clusters analysed: ' + str(i+1) + '/' + str(self.n_clusters) + ' - 100%')
@@ -160,37 +155,29 @@ class VDBSCAN():
                 finished = True
             if verbose:
                 n_noise = np.sum(self.y==-1)
-                if 100*n_noise/self.y.shape[0] > percent_noise:
-                    print(percent_noise)
-                    self.minPts = self.minPts * min_pts_decrease_factor
-                    print("MINPTS: " + str(self.minPts))
-                    finished = False
-                    if(self.minPts > 1):
-                        self.n_clusters = nclusters_saved
-                        self.y = self_y_saved
-                        print(self.eps)
-                        self.eps = self_eps_saved
-                        current_level = current_level_saved
-                        non_changes = non_changes_saved
-                        print("CHANGES MADE!!!!")
-                        #return VDBSCAN.fit(self = self, X=X,eta=eta, epsilon_start_factor=epsilon_start_factor)
-                else:
-                    ncluster_ev.append(self.n_clusters)
-                    if verbose > 2:
-                        print('\nNumber of clusters after level: ' +\
-                              str(self.n_clusters) + ' // ' +\
-                              str(n_clusters_before - self.n_clusters) +\
-                              ' small clusters pruned.')
-                        print('Noise samples after level: ' + str(n_noise) +\
-                              '(' + str(100*n_noise/self.y.shape[0]) + '%)')
-                        print('\n############################################################')
+                # if 100*n_noise/self.y.shape[0] > percent_noise:
+                #     print(percent_noise)
+                #     print(str(100*n_noise/self.y.shape[0]))
+                #     self.minPts = self.minPts * min_pts_decrease_factor
+                #     print("MINPTS: " + str(self.minPts))
+                #     return VDBSCAN.fit(self = self, X=X,eta=eta, epsilon_start_factor=epsilon_start_factor)
 
-                    elif verbose > 1:
-                        print('Nº of clusters after level: ' +\
-                              str(self.n_clusters) + ' // ' +\
-                              str(n_clusters_before - self.n_clusters) +\
-                              ' pruned // ' +\
-                              'Noise at ' + str(100*n_noise/self.y.shape[0]) + '%')
+                ncluster_ev.append(self.n_clusters)
+                if verbose > 2:
+                    print('\nNumber of clusters after level: ' +\
+                          str(self.n_clusters) + ' // ' +\
+                          str(n_clusters_before - self.n_clusters) +\
+                          ' small clusters pruned.')  
+                    print('Noise samples after level: ' + str(n_noise) +\
+                          '(' + str(100*n_noise/self.y.shape[0]) + '%)')
+                    print('\n############################################################')
+                    
+                elif verbose > 1:
+                    print('Nº of clusters after level: ' +\
+                          str(self.n_clusters) + ' // ' +\
+                          str(n_clusters_before - self.n_clusters) +\
+                          ' pruned // ' +\
+                          'Noise at ' + str(100*n_noise/self.y.shape[0]) + '%')
         # Set final labels (order by size and remove gaps)
         self.labels_ = sort_by_size(self.y)
         if verbose > 1:
