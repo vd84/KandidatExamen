@@ -108,6 +108,7 @@ class VDBSCAN():
 
 
 
+
                     #Testkör DBSCAN räkna noise,
 
                     db = DBSCAN(eps=self.eps, min_samples=self.minPts)
