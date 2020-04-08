@@ -462,8 +462,8 @@ etavalue = 0.1
 K = 3
 experiment_number = 8
 eps = 1.2
-epsVDBScan = 0.2
-minPts = 5#(samples/20) + (0.0001 * samples)
+epsVDBScan = 0.25
+minPts = (samples/20) + (0.0001 * samples)
 minPtsDBscan = 5
 
 percent_noise_vdbscan = 100
@@ -506,10 +506,19 @@ X = pca.transform(X)
 
 # Run algorithms
 # Ingen mod eller optimering VDBSCAN
-best_rand, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
-print("Optimized rand value: " + str(best_rand))
-print("Optimized kappa value: " + str(best_kappa))
-print("Optimized eta value: " + str(best_eta))
+best_rand1, best_kappa1, best_eta1 = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, 5, 0.2, percent_noise_vdbscan, mints_decease_factor_vdbscan)
+
+
+best_rand2, best_kappa2, best_eta2 = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
+
+print("Optimized rand value: " + str(best_rand1))
+print("Optimized kappa value: " + str(best_kappa1))
+print("Optimized eta value: " + str(best_eta1))
+
+
+print("Optimized rand value: " + str(best_rand2))
+print("Optimized kappa value: " + str(best_kappa2))
+print("Optimized eta value: " + str(best_eta2))
 
 
 
