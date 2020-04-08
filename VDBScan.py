@@ -106,9 +106,6 @@ class VDBSCAN():
                 print(self.eps)
                 if self.metric == 'default':
 
-
-
-
                     #Testkör DBSCAN räkna noise,
 
                     db = DBSCAN(eps=self.eps, min_samples=self.minPts)
@@ -155,12 +152,12 @@ class VDBSCAN():
                 finished = True
             if verbose:
                 n_noise = np.sum(self.y==-1)
-                # if 100*n_noise/self.y.shape[0] > percent_noise:
-                #     print(percent_noise)
-                #     print(str(100*n_noise/self.y.shape[0]))
-                #     self.minPts = self.minPts * min_pts_decrease_factor
-                #     print("MINPTS: " + str(self.minPts))
-                #     return VDBSCAN.fit(self = self, X=X,eta=eta, epsilon_start_factor=epsilon_start_factor)
+                if 100*n_noise/self.y.shape[0] > percent_noise:
+                    print(percent_noise)
+                    print(str(100*n_noise/self.y.shape[0]))
+                    self.minPts = self.minPts * min_pts_decrease_factor
+                    print("MINPTS: " + str(self.minPts))
+                    return VDBSCAN.fit(self = self, X=X,eta=eta, epsilon_start_factor=epsilon_start_factor)
 
                 ncluster_ev.append(self.n_clusters)
                 if verbose > 2:

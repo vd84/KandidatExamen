@@ -52,6 +52,7 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
 
     rand_score = adjusted_rand_score(labels_true, alg2_labels)
     print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
+    return rand_score
 
 
 
