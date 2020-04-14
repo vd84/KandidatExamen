@@ -41,6 +41,7 @@ def run(X, labels_true, number_of_clusters, experiment_number, samples):
     rand_score = adjusted_rand_score(labels_true, kmeans_labels)
     print("KMEANS: ", "Experiment number ", experiment_number," For n_clusters =", number_of_clusters,
               "KMEANS: The rand index is :", rand_score)
+    return rand_score
 
 def run_without_true_labels(X, number_of_clusters, experiment_number, samples):
 

@@ -47,7 +47,7 @@ class VDBSCAN():
             percent_noise = 10,
             min_pts_decrease_factor = 0.9,
                  eta=0.1,
-                 verbose=3):
+                 verbose=0):
         if verbose:
             print('-------------------------------------------------------')
             print('VDBSCAN Algorithm')
@@ -102,8 +102,6 @@ class VDBSCAN():
                               str(100 * i / self.n_clusters) + '%')
                     
                 Xcluster, this_idx = get_cluster(X = X, labels = self.y, clusterID = i)
-                print("ANTAL DATAPUNKTER SOM SKICKAS TILL DBSCAN " + str(len(Xcluster)))
-                print(self.eps)
                 if self.metric == 'default':
 
                     #Testkör DBSCAN räkna noise,

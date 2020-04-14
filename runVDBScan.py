@@ -47,8 +47,8 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
     plt.title(plot_text)
     plt.show()
 
-    silhouette_avg = silhouette_score(X, alg2_labels)
-    print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
+    # silhouette_avg = silhouette_score(X, alg2_labels)
+    # print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, alg2_labels)
     print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score)
