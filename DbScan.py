@@ -57,7 +57,7 @@ def run(X, labels_true, experiment_number, eps, minPts, samples):
     # print("DBSCAN: ", "Experiment number ", experiment_number, " The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, skl_labels)
-    print("DBSCAN: ", "Experiment number ", experiment_number, " The rand index is :", rand_score)
+    print("DBSCAN: ", "Experiment number ", experiment_number, " The rand index is :", rand_score, "Epsilon: ", eps, "MinPts:", minPts)
     return rand_score
 def run_without_true_labels(X, experiment_number, eps, minPts, samples):
     db = DBSCAN(eps=eps, min_samples=minPts).fit(X)
