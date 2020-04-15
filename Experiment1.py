@@ -9,11 +9,11 @@ from sklearn import decomposition
 from sklearn import preprocessing
 from random import randrange
 
-
 import Water_treatment_dataset
 
 
-def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples, best_rand=0, best_eps = 0, best_minpts = 0, recursive_counter=0):
+def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples, best_rand=0, best_eps=0,
+                   best_minpts=0, recursive_counter=0):
     # if recursive_counter >= 1:
     #     DbScan.run(X, labels_true, experiment_number, eps, minPtsDBscan, samples)
     #
@@ -30,7 +30,6 @@ def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples
     rand_minpts_decreased = 0
     best_eps = eps
     best_minpts = minPts
-
 
     while increase:
         print("increase")
@@ -55,15 +54,15 @@ def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples
             increase = False
             decrease = True
 
-    while decrease:
+    while decrease and epsilonToBeAdjusted > 0:
         print("deacrese")
         try:
-            new_rand = DbScan.run(X, labels_true, experiment_number, eps, best_minpts, samples)
+            new_rand = DbScan.run(X, labels_true, experiment_number, epsilonToBeAdjusted, best_minpts, samples)
 
         except:
             print("failed to run DBSCAN in optimizer")
             new_rand = rand_eps_decreased
-        if rand_eps_decreased <= new_rand and rand_eps_increased <= new_rand:
+        if rand_eps_decreased <= new_rand:
             epsilonToBeAdjusted = epsilonToBeAdjusted - 0.01
             if rand_eps_decreased < new_rand and rand_eps_increased < new_rand:
                 best_eps = epsilonToBeAdjusted
@@ -88,33 +87,31 @@ def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples
             if rand_minpts_increased < new_rand:
                 best_minpts = minPtsToBeAdjusted
             rand_minpts_increased = new_rand
-
-
-
         else:
             minPtsToBeAdjusted = minPts
             increase = False
             decrease = True
 
-    while decrease:
+    while decrease  and minPtsToBeAdjusted > 1:
         print("decrease2")
         try:
-            new_rand = DbScan.run(X, labels_true, experiment_number, best_eps, minPts,
+            new_rand = DbScan.run(X, labels_true, experiment_number, best_eps, minPtsToBeAdjusted,
                                   samples)
-
         except:
             print("failed to run DBSCAN in optimizer")
             new_rand = rand_minpts_decreased
+
+        print("rand_minpts_decreased: " + str(rand_minpts_decreased))
+        print("new rand: " + str(new_rand))
         if rand_minpts_decreased <= new_rand:
             minPtsToBeAdjusted = minPtsToBeAdjusted - 1
-            if (rand_minpts_decreased < new_rand and rand_minpts_increased < new_rand) and minPts > 1:
+            if (rand_minpts_decreased < new_rand and rand_minpts_increased < new_rand):
                 best_minpts = minPtsToBeAdjusted
             rand_minpts_decreased = new_rand
 
 
         else:
             decrease = False
-
 
     if rand_eps_decreased < rand_eps_increased:
         best_rand = rand_eps_increased
@@ -126,165 +123,124 @@ def optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples
     return best_rand, best_eps, best_minpts
 
 
-
-
 def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsVDBScan,
-                    percent_noise_vdbscan, mints_decease_factor_vdbscan, counter=0, best_rand=0, best_kappa = 0, best_eta = 0):
-    print(counter)
-    if counter >= 1:
-        return best_rand, best_kappa, best_eta  # KappaOptimize
-    rand = best_rand
-
-    iteration_vdbscan_optimizer = 0
+                    percent_noise_vdbscan, mints_decease_factor_vdbscan, counter=0, best_rand=0, best_kappa=0,
+                    best_eta=0):
+    rand_kappa_increased = 0
+    rand_kappa_decreased = 0
+    rand_eta_increased = 0
+    rand_eta_decreased = 0
     # increaseKappa
     kappavalueToAdjust = kappavalue
-    #print("Kappa initial value: " + str(kappavalue))
+    # print("Kappa initial value: " + str(kappavalue))
     etavalueToAdjust = etavalue
-    #print("Eta initial value: " + str(etavalue))
+    # print("Eta initial value: " + str(etavalue))
     minptsToAdjust = minPts
-    best_eta = best_eta
-    best_kappa = best_kappa
+    best_eta = etavalue
+    best_kappa = kappavalue
 
     increase = True
     decrease = False
+
+    print("Eta initial:" + str(etavalueToAdjust))
     while increase:
 
         try:
-            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(kappavalueToAdjust, 3),
-                                      round(best_eta, 1), metricvalue, minptsToAdjust, epsVDBScan,
+            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, kappavalueToAdjust,
+                                      best_eta, metricvalue, minptsToAdjust, epsVDBScan,
                                       percent_noise_vdbscan, mints_decease_factor_vdbscan)
         except:
-     #       print("failed to run VDBSCAN in optimizer")
-            new_rand = rand
-            etavalueToAdjust = etavalueToAdjust*randrange(2)
-            kappavalueToAdjust = kappavalueToAdjust*randrange(2)
+            #      print("failed to run VDBSCAN in optimizer")
+            new_rand = rand_kappa_increased
 
-
-        if rand <= new_rand:
-            rand = new_rand
-            kappavalueToAdjust = kappavalueToAdjust + 0.001
-            if rand < new_rand:
+        if rand_kappa_increased <= new_rand:
+            if rand_kappa_increased < new_rand:
                 best_kappa = kappavalueToAdjust
+            kappavalueToAdjust = kappavalueToAdjust + 0.001
+            rand_kappa_increased = new_rand
+
         else:
             kappavalueToAdjust = kappavalue
             increase = False
             decrease = True
-    while decrease:
+    while decrease and kappavalueToAdjust >= 0:
 
         try:
-            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(kappavalueToAdjust, 3),
-                                      round(best_eta, 1), metricvalue,
+            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, kappavalueToAdjust,
+                                      best_eta, metricvalue,
                                       minptsToAdjust, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
         except:
-      #      print("failed to run VDBSCAN in optimizer")
-            new_rand = rand
-            etavalueToAdjust = etavalueToAdjust*randrange(2)
-            kappavalueToAdjust = kappavalueToAdjust*randrange(2)
+            #      print("failed to run VDBSCAN in optimizer")
+            new_rand = rand_kappa_decreased
 
-        if rand <= new_rand and kappavalueToAdjust >= 0:
-       #     print("decreasing")
-            rand = new_rand
-            kappavalueToAdjust = kappavalueToAdjust - 0.001
-            if rand < new_rand:
+        if rand_kappa_decreased <= new_rand:
+            #     print("decreasing")
+
+            if rand_kappa_decreased < new_rand and rand_kappa_increased < new_rand:
                 best_kappa = kappavalueToAdjust
+            kappavalueToAdjust = kappavalueToAdjust - 0.001
+            rand_kappa_decreased = new_rand
 
         else:
+            increase = True
             decrease = False
-            #best_kappa = kappavalueToAdjust + 0.001
-            #kappavalueToAdjust = kappavalue
-
+            # best_kappa = kappavalueToAdjust + 0.001
+            # kappavalueToAdjust = kappavalue
 
     # EtaOptimize
     # increaseKappa
-    increase = True
-    #decrease = False
+    # decrease = False
 
     while increase:
         try:
-            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(best_kappa, 3),
-                                      round(etavalueToAdjust, 1), metricvalue, minptsToAdjust, epsVDBScan,
+            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, best_kappa,
+                                      etavalueToAdjust, metricvalue, minptsToAdjust, epsVDBScan,
                                       percent_noise_vdbscan, mints_decease_factor_vdbscan)
         except:
-        #    print("failed to run VDBSCAN in optimizer")
-            new_rand = rand
-            etavalueToAdjust = etavalueToAdjust*randrange(2)
-            kappavalueToAdjust = kappavalueToAdjust*randrange(2)
+            #    print("failed to run VDBSCAN in optimizer")
+            new_rand = rand_eta_increased
 
-        if rand <= new_rand:
-            rand = new_rand
-            etavalueToAdjust = etavalueToAdjust + 0.1
-            if rand < new_rand:
+        if rand_eta_increased <= new_rand:
+            if rand_eta_increased < new_rand:
                 best_eta = etavalueToAdjust
+            etavalueToAdjust = etavalueToAdjust + 0.1
+            rand_eta_increased = new_rand
+
 
         else:
             etavalueToAdjust = etavalue
             increase = False
             decrease = True
 
-    while decrease:
+    while decrease and etavalueToAdjust >= 0:
         try:
-            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(best_kappa, 3),
-                                      round(etavalueToAdjust, 1), metricvalue,
+            new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, best_kappa,
+                                      etavalueToAdjust, metricvalue,
                                       minptsToAdjust, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
         except:
-         #   print("failed to run VDBSCAN in optimizer")
-            new_rand = rand
-            etavalueToAdjust = etavalueToAdjust*randrange(2)
-            kappavalueToAdjust = kappavalueToAdjust*randrange(2)
+            #   print("failed to run VDBSCAN in optimizer")
+            new_rand = rand_eta_decreased
 
-
-
-        if rand <= new_rand:
-            rand = new_rand
-            etavalueToAdjust = etavalueToAdjust - 0.1
-            if rand < new_rand:
+        if rand_eta_decreased <= new_rand:
+            if rand_eta_decreased < new_rand and rand_eta_increased < new_rand:
                 best_eta = etavalueToAdjust
+            etavalueToAdjust = etavalueToAdjust - 0.1
+            rand_eta_decreased = new_rand
+
         else:
             decrease = False
-            #best_eta = etavalueToAdjust
-            #etavalueToAdjust = etavalue
+            # best_eta = etavalueToAdjust
+            # etavalueToAdjust = etavalue
 
+    # ÄNDRA
+    if rand_kappa_decreased < rand_kappa_increased:
+        best_rand = rand_kappa_increased
+    if best_rand < rand_eta_increased:
+        best_rand = rand_eta_increased
+    if best_rand < rand_eta_decreased:
+        best_rand = rand_eta_decreased
 
-    # # Minpts Optimize
-    # increase = True
-    # decrease = False
-    # while increase  and not iteration_vdbscan_optimizer >= max_iter:
-    #
-    #     try:
-    #         new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(kappavalueToAdjust, 3),
-    #                                   round(etavalueToAdjust, 1), metricvalue,
-    #                                   minptsToAdjust, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
-    #     except:
-    #         print("failed to run VDBSCAN in optimizer")
-    #         new_rand = rand
-    #
-    #     if rand < new_rand or (rand == new_rand and rand != 0.0):
-    #         rand = new_rand
-    #         minptsToAdjust = minptsToAdjust + 1
-    #         iteration_vdbscan_optimizer = iteration_vdbscan_optimizer + 1
-    #     else:
-    #         increase = False
-    #         decrease = True
-    #         iteration_vdbscan_optimizer = 0
-    # while decrease and iteration_vdbscan_optimizer <= max_iter:
-    #     try:
-    #         new_rand = runVDBScan.run(X, labels_true, experiment_number, samples, round(kappavalueToAdjust, 3),
-    #                                   round(etavalueToAdjust, 1), metricvalue,
-    #                                   minptsToAdjust, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
-    #     except:
-    #         print("failed to run VDBSCAN in optimizer")
-    #         new_rand = rand
-    #     if rand < new_rand or (rand == new_rand and rand != 0.0):
-    #         rand = new_rand
-    #         minptsToAdjust = minptsToAdjust - 1
-    #     else:
-    #         minptsToAdjust = minptsToAdjust + 1
-    #
-    #         decrease = False
-
-    return optimizeVDBScan(X, labels_true, experiment_number, samples, round(kappavalueToAdjust, 3),
-                           round(etavalueToAdjust, 1), metricvalue, minptsToAdjust, epsVDBScan, percent_noise_vdbscan,
-                           mints_decease_factor_vdbscan, counter + 1, rand, best_kappa, best_eta)
+    return best_rand, best_kappa, best_eta
 
 
 # # # Expriment 1  ##########################
@@ -584,13 +540,13 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
 #
 #
 
-#REAL WORLD DATA SETS################
+# REAL WORLD DATA SETS################
 
 
 # Expriment 7 IRIS  ##########################
 samples = 250
 metricvalue = 'default'
-#metricvalue = cosine
+# metricvalue = cosine
 
 kappavalue = 0.005
 etavalue = 0.1
@@ -599,7 +555,7 @@ K = 3
 experiment_number = 7
 eps = 0.5
 epsVDBScan = 0.2
-minPts_modified = (samples/20) + (0.0001 * samples)
+minPts_modified = (samples / 20) + (0.0001 * samples)
 minPts = 3
 minPtsDBscan = 3
 
@@ -614,21 +570,22 @@ pca.fit(X)
 X = pca.transform(X)
 
 # Run algorithms
-#best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts_modified, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
+best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+                                                                                    samples, kappavalue, etavalue,
+                                                                                    metricvalue, minPts_modified,
+                                                                                    epsVDBScan, percent_noise_vdbscan,
+                                                                                    mints_decease_factor_vdbscan)
 
-#best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etavalue, metricvalue, minPts, epsVDBScan, percent_noise_vdbscan, mints_decease_factor_vdbscan)
 
-#best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples)
-
-
-#print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-#print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-#print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps, minPtsDBscan, samples)
 
 
-
+print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
 
 
 #
@@ -1088,5 +1045,3 @@ print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
 #
 # ################
 # ################
-
-
