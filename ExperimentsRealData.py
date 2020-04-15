@@ -130,7 +130,7 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
     increase = True
     decrease = False
 
-    step_factor = 0.1
+    step_factor = 0.01
     while increase:
 
         try:
@@ -158,7 +158,7 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
                 kappavalueToAdjust = kappavalue
                 increase = False
                 decrease = True
-                step_factor = 0.1
+                step_factor = 0.01
     while decrease:
 
         try:
@@ -185,11 +185,11 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
                 kappavalueToAdjust = best_kappa - step_factor
 
             else:
-                print("else sats decrease kappa")
                 kappavalueToAdjust = kappavalue
+
                 increase = True
                 decrease = False
-                step_factor = 1
+                step_factor = 0.1
 
     # EtaOptimize
     # increaseKappa
@@ -205,8 +205,10 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
             new_rand = rand_eta_increased
 
         if rand_eta_increased <= new_rand:
+
             if rand_eta_increased < new_rand:
                 best_eta = etavalueToAdjust
+            best_eta = etavalueToAdjust
             etavalueToAdjust = etavalueToAdjust + step_factor
             rand_eta_increased = new_rand
 
@@ -234,6 +236,7 @@ def optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue, etav
         if rand_eta_decreased <= new_rand:
             if rand_eta_decreased < new_rand and rand_eta_increased < new_rand:
                 best_eta = etavalueToAdjust
+            best_eta  = etavalueToAdjust
             etavalueToAdjust = etavalueToAdjust - step_factor
             rand_eta_decreased = new_rand
 
@@ -489,5 +492,3 @@ print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
 print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
 print("######## Boston END #########")
 
-################
-################

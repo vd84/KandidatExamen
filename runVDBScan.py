@@ -51,9 +51,9 @@ def run(X, labels_true, experiment_number, samples, kappavalue, etavalue, metric
     # print("VDBSCAN ", "Experiment number ", experiment_number," The average silhouette_score is :", silhouette_avg)
 
     rand_score = adjusted_rand_score(labels_true, alg2_labels)
-    if (rand_score != 0):
-        print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score, " Kappa = ", kappavalue, " ETA value = " , etavalue)
-        return rand_score
+    #if (rand_score != 0):
+       # print("VBSCAN: ","Experiment number ", experiment_number, " The rand index is :", rand_score, " Kappa = ", kappavalue, " ETA value = " , etavalue)
+    return rand_score
 
 
 
