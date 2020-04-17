@@ -404,9 +404,12 @@ X = pca.transform(X)
 # Expriment Mall_Customer  ##########################
 dataset = pd.read_csv('Mall_Customers.csv')
 dataset.isnull().sum()
-X= dataset.iloc[:, [2,4]].values
-labels_true = dataset.iloc[:, 1].values
-wcss=[]
+X= dataset.iloc[:, [3,4]].values
+labels_true = dataset.iloc[:, [2]].values
+pca = decomposition.PCA(n_components=2)
+pca.fit(X)
+X = pca.transform(X)
+X =  preprocessing.scale(X)
 #Run algorithms
 best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
                                                                                     samples, kappavalue, etavalue,
