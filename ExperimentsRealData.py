@@ -8,6 +8,7 @@ from scipy.spatial.distance import cosine, canberra
 from sklearn import decomposition
 from sklearn import preprocessing
 from random import randrange
+import pandas as pd
 
 import Water_treatment_dataset
 
@@ -272,7 +273,7 @@ etavalue = 0.1
 K = 3
 experiment_number = 7
 eps = 0.5
-epsVDBScan = 0.2
+epsVDBScan = 0.7
 minPts_modified = (samples / 20) + (0.0001 * samples)
 minPts = 3
 minPtsDBscan = 3
@@ -287,7 +288,126 @@ pca = decomposition.PCA(n_components=2)
 pca.fit(X)
 X = pca.transform(X)
 
-# Run algorithms
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## IRIS #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## IRIS END #########")
+#
+# # Expriment Digits  ##########################
+#
+# digits = datasets.load_digits()
+# labels_true = digits.target
+# X = digits.data
+# X = preprocessing.scale(X)
+#
+# pca = decomposition.PCA(n_components=2)
+# pca.fit(X)
+# X = pca.transform(X)
+#
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## Digits #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## Digits END #########")
+#
+# # Expriment Diabetes  ##########################
+#
+#
+# diabetes = datasets.load_diabetes()
+# X = diabetes.data
+# labels_true = diabetes.target
+# X = preprocessing.scale(X)
+#
+# pca = decomposition.PCA(n_components=2)
+# pca.fit(X)
+# X = pca.transform(X)
+#
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## Diabetes #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## Diabetes END #########")
+#
+# # Expriment Cancer  ##########################
+#
+# cancer = datasets.load_breast_cancer()
+# X = cancer.data
+# labels_true = cancer.target
+# X = preprocessing.scale(X)
+# pca = decomposition.PCA(n_components=2)
+# pca.fit(X)
+# X = pca.transform(X)
+#
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## Cancer #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## Cancer END #########")
+
+# Expriment Mall_Customer  ##########################
+dataset = pd.read_csv('Mall_Customers.csv')
+dataset.isnull().sum()
+X= dataset.iloc[:, [2,4]].values
+labels_true = dataset.iloc[:, 1].values
+wcss=[]
+#Run algorithms
 best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
                                                                                     samples, kappavalue, etavalue,
                                                                                     metricvalue, minPts_modified,
@@ -300,130 +420,7 @@ best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
 best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
                                                                            minPtsDBscan, samples)
 
-print("######## IRIS #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## IRIS END #########")
-
-# Expriment Digits  ##########################
-
-digits = datasets.load_digits()
-labels_true = digits.target
-X = digits.data
-X = preprocessing.scale(X)
-
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Digits #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## Digits END #########")
-
-# Expriment Diabetes  ##########################
-
-
-diabetes = datasets.load_breast_cancer()
-X = diabetes.data
-labels_true = diabetes.target
-X = preprocessing.scale(X)
-
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Diabetes #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## Diabetes END #########")
-
-# Expriment Cancer  ##########################
-
-cancer = datasets.load_breast_cancer()
-X = cancer.data
-labels_true = cancer.target
-X = preprocessing.scale(X)
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Cancer #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## Cancer END #########")
-
-# Expriment Linnerud  ##########################
-linnerud = datasets.load_linnerud()
-X = linnerud.data
-labels_true = linnerud.target
-X = preprocessing.scale(X)
-
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Linnerud #########")
+print("######## Mall_customer #########")
 print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
 print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
 print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
@@ -431,64 +428,64 @@ print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
 print("######## Linnerud END #########")
 
 # Expriment Wine  ##########################
-
-wine = datasets.load_wine()
-X = wine.data
-labels_true = wine.target
-X = preprocessing.scale(X)
-
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Wine #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## Wine END #########")
-
-# Expriment Boston  ##########################
-
-boston = datasets.load_boston()
-X = boston.data
-labels_true = boston.target
-X = preprocessing.scale(X)
-
-pca = decomposition.PCA(n_components=2)
-pca.fit(X)
-X = pca.transform(X)
-
-# Run algorithms
-best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
-                                                                                    samples, kappavalue, etavalue,
-                                                                                    metricvalue, minPts_modified,
-                                                                                    epsVDBScan, percent_noise_vdbscan,
-                                                                                    mints_decease_factor_vdbscan)
-best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
-                                                          etavalue, metricvalue, minPts, epsVDBScan,
-                                                          percent_noise_vdbscan, mints_decease_factor_vdbscan)
-best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
-best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
-                                                                           minPtsDBscan, samples)
-
-print("######## Boston #########")
-print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
-print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
-print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
-print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
-print("######## Boston END #########")
+#
+# wine = datasets.load_wine()
+# X = wine.data
+# labels_true = wine.target
+# X = preprocessing.scale(X)
+#
+# pca = decomposition.PCA(n_components=2)
+# pca.fit(X)
+# X = pca.transform(X)
+#
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## Wine #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## Wine END #########")
+#
+# # Expriment Boston  ##########################
+#
+# boston = datasets.load_boston()
+# X = boston.data
+# labels_true = boston.target
+# X = preprocessing.scale(X)
+#
+# pca = decomposition.PCA(n_components=2)
+# pca.fit(X)
+# X = pca.transform(X)
+#
+# # Run algorithms
+# best_rand_vdbscan_modified, best_kappa_modified, best_eta_modifed = optimizeVDBScan(X, labels_true, experiment_number,
+#                                                                                     samples, kappavalue, etavalue,
+#                                                                                     metricvalue, minPts_modified,
+#                                                                                     epsVDBScan, percent_noise_vdbscan,
+#                                                                                     mints_decease_factor_vdbscan)
+# best_rand_vdbscan, best_kappa, best_eta = optimizeVDBScan(X, labels_true, experiment_number, samples, kappavalue,
+#                                                           etavalue, metricvalue, minPts, epsVDBScan,
+#                                                           percent_noise_vdbscan, mints_decease_factor_vdbscan)
+# best_rand_kmeans = Kmeans.run(X, labels_true, K, experiment_number, samples)
+# best_rand_dbscan, best_epsilon_dbscan, best_minpts_dbscan = optimizeDBScan(X, labels_true, experiment_number, eps,
+#                                                                            minPtsDBscan, samples)
+#
+# print("######## Boston #########")
+# print("Modified VDBSCAN Optimized rand value: " + str(best_rand_vdbscan_modified))
+# print("VDBSCAN Optimized rand value: " + str(best_rand_vdbscan))
+# print("KMEANS Optimized rand value: " + str(best_rand_kmeans))
+# print("DBSCAN Optimized rand value: " + str(best_rand_dbscan))
+# print("######## Boston END #########")
 

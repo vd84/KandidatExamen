@@ -68,7 +68,7 @@ def run_without_true_labels(X, number_of_clusters, experiment_number, samples):
         xy = X[class_member_mask & ~core_samples_mask]
         plt.plot(xy[:, 0], xy[:, 1], 'o', markerfacecolor=tuple(col),
                  markeredgecolor='k', markersize=6)
-    plot_text = "KMEANS PLOT, experiment number: " + str(experiment_number)  + "Samplesize = " + samples + "k= " + str(number_of_clusters)
+    plot_text = "KMEANS PLOT, experiment number: " + str(experiment_number)  + "Samplesize = " + str(samples) + "k= " + str(number_of_clusters)
     plt.title(plot_text)
     plt.show()
 
